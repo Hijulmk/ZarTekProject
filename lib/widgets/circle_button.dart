@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:show_up_animation/show_up_animation.dart';
 
 class CircleButton extends StatelessWidget {
   const CircleButton({
@@ -13,14 +14,21 @@ class CircleButton extends StatelessWidget {
   final Widget? icn;
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      
-      child: icn,
-      // height: 20,
-      minWidth: 9,
-      color: clr,
-      shape: CircleBorder(),
-      onPressed: onTap,
+    return ShowUpAnimation(
+      delayStart: Duration(seconds: 1),
+  animationDuration: Duration(seconds: 2),
+  curve: Curves.easeIn,
+  direction: Direction.horizontal,
+  offset: 4,
+      child: MaterialButton(
+        
+        child: icn,
+        // height: 20,
+        minWidth: 9,
+        color: clr,
+        shape: CircleBorder(),
+        onPressed: onTap,
+      ),
     );
   }
 }

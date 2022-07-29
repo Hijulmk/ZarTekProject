@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:show_up_animation/show_up_animation.dart';
 import 'package:slider_controller/slider_controller.dart';
 import 'package:zartek_mt/widgets/bulb.dart';
 import 'package:zartek_mt/widgets/circle_button.dart';
@@ -12,9 +13,20 @@ class HmPg extends StatefulWidget {
   State<HmPg> createState() => _HmPgState();
 }
 
+int lampExpanded = 0;
+
 class _HmPgState extends State<HmPg> {
-  var developer;
   var value = 1.0;
+  @override
+  void initState() {
+    super.initState();
+    for (double i = 0; i < 1; i++) {
+      Future.delayed(Duration(milliseconds: 300))
+          .then((value) => setState(() => i = i + .1));
+    }
+  }
+
+  var developer;
   int buttonvalue = 0;
   int selectedIndex = 0;
   final List<String> chipitems = ['Main Light', 'Desk Light', 'Bed Light'];
@@ -72,22 +84,34 @@ class _HmPgState extends State<HmPg> {
                                 fontSize: 25,
                                 fontWeight: FontWeight.w700,
                               )),
-                          const Padding(
+                          Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text("4 Lights",
-                                style: TextStyle(
-                                  color: Colors.amber,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                )),
-                          )
+                            child: ShowUpAnimation(
+                              delayStart: Duration(seconds: 1),
+                              animationDuration: Duration(seconds: 2),
+                              curve: Curves.easeInOut,
+                              direction: Direction.vertical,
+                              offset: 4,
+                              child: Text("4 Lights",
+                                  style: TextStyle(
+                                    color: Colors.amber,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                  )),
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    Bulb(color: color),
+                    ShowUpAnimation(
+                        delayStart: Duration(seconds: 1),
+                        animationDuration: Duration(seconds: 2),
+                        curve: Curves.easeInBack,
+                        direction: Direction.vertical,
+                        offset: 4,
+                        child: Bulb(color: color)),
                   ],
                 ),
-                //Column(children: [Container(height: 20,width: 20,color: Colors.amber,)],),
                 Padding(
                   padding: const EdgeInsets.only(left: 18.0),
                   child: SingleChildScrollView(
@@ -96,32 +120,39 @@ class _HmPgState extends State<HmPg> {
                       spacing: 10,
                       children: List.generate(
                         chipitems.length,
-                        (index) => ChoiceChip(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                        (index) => ShowUpAnimation(
+                          delayStart: Duration(seconds: 1),
+  animationDuration: Duration(seconds: 2),
+  curve: Curves.easeInOut,
+  direction: Direction.horizontal,
+  offset: 4,
+                          child: ChoiceChip(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            avatar: Icon(chipitemsIcon.elementAt(index),
+                                color: selectedIndex == index
+                                    ? Colors.white
+                                    : Color.fromARGB(255, 24, 167, 119)),
+                            labelStyle: selectedIndex == index
+                                ? TextStyle(color: Colors.white)
+                                : TextStyle(
+                                    color: Color.fromARGB(255, 24, 167, 119)),
+                            label: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 2.0),
+                              child: Text(chipitems.elementAt(index),
+                                  style: TextStyle(
+                                      fontSize: 20, fontWeight: FontWeight.w500)),
+                            ),
+                            selectedColor: Color.fromARGB(255, 24, 167, 119),
+                            backgroundColor: Colors.white,
+                            selected: selectedIndex == index,
+                            onSelected: ((value) => setState(() {
+                                  if (value) {
+                                    selectedIndex = index;
+                                  }
+                                })),
                           ),
-                          avatar: Icon(chipitemsIcon.elementAt(index),
-                              color: selectedIndex == index
-                                  ? Colors.white
-                                  : Color.fromARGB(255, 24, 167, 119)),
-                          labelStyle: selectedIndex == index
-                              ? TextStyle(color: Colors.white)
-                              : TextStyle(
-                                  color: Color.fromARGB(255, 24, 167, 119)),
-                          label: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 2.0),
-                            child: Text(chipitems.elementAt(index),
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w500)),
-                          ),
-                          selectedColor: Color.fromARGB(255, 24, 167, 119),
-                          backgroundColor: Colors.white,
-                          selected: selectedIndex == index,
-                          onSelected: ((value) => setState(() {
-                                if (value) {
-                                  selectedIndex = index;
-                                }
-                              })),
                         ),
                       ),
                     ),
@@ -192,8 +223,6 @@ class _HmPgState extends State<HmPg> {
                             )),
                       ),
                       Row(
-                        //crossAxisAlignment: CrossAxisAlignment.start,
-                        //mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(left: 20),
@@ -257,84 +286,22 @@ class _HmPgState extends State<HmPg> {
                               fontWeight: FontWeight.w600,
                             )),
                       ),
-                      Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-                                width: 120,
-                                height: 40,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Colors.deepOrange.shade300,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10))),
-                                  onPressed: () {},
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.lightbulb),
-                                      Text("Birthday")
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: 120,
-                                height: 40,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Colors.deepPurple.shade400,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10))),
-                                  onPressed: () {},
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.lightbulb),
-                                      Text("Party")
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Container(
-                                    width: 120,
-                                    height: 40,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          primary: Colors.blue.shade400,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10))),
-                                      onPressed: () {},
-                                      child: Row(
-                                        children: [
-                                          Icon(Icons.lightbulb),
-                                          Text("Relax")
-                                        ],
-                                      ),
-                                    )),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Container(
+                      ShowUpAnimation(delayStart: Duration(seconds: 1),
+  animationDuration: Duration(seconds: 2),
+  curve: Curves.bounceIn,
+  direction: Direction.horizontal,
+  offset: 4,
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
                                   width: 120,
                                   height: 40,
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                        primary: Colors.green.shade300,
+                                        primary: Colors.deepOrange.shade300,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(10))),
@@ -342,15 +309,89 @@ class _HmPgState extends State<HmPg> {
                                     child: Row(
                                       children: [
                                         Icon(Icons.lightbulb),
-                                        Text("Fun")
+                                        Text("Birthday")
                                       ],
                                     ),
                                   ),
                                 ),
-                              )
-                            ],
-                          )
-                        ],
+                                Container(
+                                  width: 120,
+                                  height: 40,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.deepPurple.shade400,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10))),
+                                    onPressed: () {},
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.lightbulb),
+                                        Text("Party")
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      ShowUpAnimation(delayStart: Duration(seconds: 1),
+  animationDuration: Duration(seconds: 2),
+  curve: Curves.bounceIn,
+  direction: Direction.horizontal,
+  offset: 4,
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Container(
+                                      width: 120,
+                                      height: 40,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            primary: Colors.blue.shade400,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10))),
+                                        onPressed: () {},
+                                        child: Row(
+                                          children: [
+                                            Icon(Icons.lightbulb),
+                                            Text("Relax")
+                                          ],
+                                        ),
+                                      )),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Container(
+                                    width: 120,
+                                    height: 40,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.green.shade300,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10))),
+                                      onPressed: () {},
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.lightbulb),
+                                          Text("Fun")
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -358,6 +399,13 @@ class _HmPgState extends State<HmPg> {
               ],
             ),
           ),
+          // AnimatedContainer(
+          //   duration: Duration(milliseconds: 300),
+          //   margin: EdgeInsets.only(top: double.parse(lampExpanded.toString())),
+          //   child: Container(
+          //     child: Bulb(color: color),
+          //   ),
+          // ),
           Positioned(
               height: deviceHeight * .75,
               left: deviceWidth * .85,

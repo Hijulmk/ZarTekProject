@@ -30,6 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
   slider_controller: ^0.0.4
+  show_up_animation: ^2.0.0
     
 
 
