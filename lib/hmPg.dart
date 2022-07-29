@@ -27,12 +27,11 @@ class _HmPgState extends State<HmPg> {
   Color iconColor = Colors.amber;
   @override
   Widget build(BuildContext context) {
-    final deviceHeight=MediaQuery.of(context).size.height;
-    final deviceWidth=MediaQuery.of(context).size.width;
+    final deviceHeight = MediaQuery.of(context).size.height;
+    final deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Stack(
         children: [
-         
           Container(
             height: double.infinity,
             width: double.infinity,
@@ -50,7 +49,7 @@ class _HmPgState extends State<HmPg> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 18,top: 50),
+                      padding: EdgeInsets.only(left: 18, top: 50),
                       child: Column(
                         children: [
                           Row(
@@ -67,13 +66,13 @@ class _HmPgState extends State<HmPg> {
                                   )),
                             ],
                           ),
-                       Text("Room",
+                          Text("Room",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 25,
                                 fontWeight: FontWeight.w700,
                               )),
-                        const  Padding(
+                          const Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text("4 Lights",
                                 style: TextStyle(
@@ -107,7 +106,8 @@ class _HmPgState extends State<HmPg> {
                                   : Color.fromARGB(255, 24, 167, 119)),
                           labelStyle: selectedIndex == index
                               ? TextStyle(color: Colors.white)
-                              : TextStyle(color: Color.fromARGB(255, 24, 167, 119)),
+                              : TextStyle(
+                                  color: Color.fromARGB(255, 24, 167, 119)),
                           label: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 2.0),
                             child: Text(chipitems.elementAt(index),
@@ -158,8 +158,9 @@ class _HmPgState extends State<HmPg> {
                           ),
                           Container(
                             width: 280,
-                            child: Slider(activeColor: Colors.amber,
-                            inactiveColor: Colors.grey,
+                            child: Slider(
+                              activeColor: Colors.amber,
+                              inactiveColor: Colors.grey,
                               value: value,
                               onChanged: (newValue) {
                                 print(newValue);
@@ -357,12 +358,17 @@ class _HmPgState extends State<HmPg> {
               ],
             ),
           ),
-           Positioned(
-            height: deviceHeight*.75,
-            left: deviceWidth*.85,
-              child: CircleAvatar(
-                radius: 20,
-                  backgroundColor:  Colors.white, child: Icon(Icons.power_settings_new,color: Colors.red),)),
+          Positioned(
+              height: deviceHeight * .75,
+              left: deviceWidth * .85,
+              child: InkWell(
+                onTap: () {},
+                child: CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.white,
+                  child: Icon(Icons.power_settings_new, color: Colors.red),
+                ),
+              )),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
